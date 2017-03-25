@@ -35,6 +35,7 @@
 # Documents
 *.doc*
 *.pdf
+*.xls*
 
 # Subfolders
 Archive/
