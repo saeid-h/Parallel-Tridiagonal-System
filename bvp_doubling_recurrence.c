@@ -92,7 +92,7 @@ int main (int argc, char *argv[]){
     int size;					// Grid size
     int my_rank, num_procs;		// Parallel process's parameters
 	
-	int m = 16;					// Size = 2^m
+	int m = 10;					// Size = 2^m
 	
 	double x_start  = 0.0;	double y_start	= 0.0;
 	double x_end	= 1.0;	double y_end	= 1.0;
@@ -118,7 +118,7 @@ int main (int argc, char *argv[]){
 	if (my_rank == 0){
 		printf ("\nSolution Method:\tDoubling Recurrence\n");
 		printf ("Problem size:\t\t%d\n", size);		
-		printf ("Number of processes:\t%d\n", num_procs);
+		printf ("Number of processes:\t%d\n\n", num_procs);
 	}
 	
 	double h = (x_end - x_start) / (double) (size-1);
@@ -146,7 +146,7 @@ int main (int argc, char *argv[]){
 	b[size-1] = 1.0;
 	d[size-1] = y_end;
 
-	
+	/*
 	if (my_rank == 0)
 		for (int i = 0; i < size; i++){
 			if (i % (size/100) == 0){
@@ -154,6 +154,7 @@ int main (int argc, char *argv[]){
 			i, a[i], i, b[i], i, c[i], i, d[i]);
 			printf ("\n");}
 		}
+	;*/
 	
 
 /* Matrix Decomposition Phase ----------------------------------------------- */
@@ -206,12 +207,12 @@ int main (int argc, char *argv[]){
 	
 	w[my_first + my_share - 1] = A[0][1] / A[1][1];
 	
-	
+	/*
 	if (my_rank == 0)
 		for (int i = 0; i < size; i++)
 			if (i % (size/100) == 0)
 				printf ("w[%d]=%4.2f,  ", i, w[i]);
-	;
+	;*/
 	
 	if (num_procs > 1){
 		if( my_rank == 0){
@@ -242,12 +243,13 @@ int main (int argc, char *argv[]){
 	MPI_Allgather (w+my_first, my_share, MPI_DOUBLE,
 					w, my_share, MPI_DOUBLE, MPI_COMM_WORLD);
 	MPI_Barrier (MPI_COMM_WORLD);
-					
+	
+	/*				
 	if (my_rank == 0)
 		for (int i = 0; i < size; i++)
 			if (i % (size/100) == 0)
 				printf ("w[%d]=%4.2f,  ", i, w[i]);
-	;
+	;*/
 
 /* Lower Matrix Solution ---------------------------------------------------- */
 	
@@ -297,14 +299,14 @@ int main (int argc, char *argv[]){
 	MPI_Allgather (d+my_first, my_share, MPI_DOUBLE,
 					w, my_share, MPI_DOUBLE, MPI_COMM_WORLD);
 	
-				
+	/*			
 	if (my_rank == 0){
 		for (int i = 0; i < size; i++)
 			if (i % (size/100) == 0)
 				printf ("y[%4.2f] = %4.2f, ", (double)i*h, d[i]);
 		printf ("\n");
 	}
-	;
+	;*/
 		
 	
 	
